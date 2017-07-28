@@ -1,0 +1,86 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container {
+	height: 100%;
+	width: 100%;
+}
+
+#calculator {
+	background-color: grey;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+#brand {
+	text-align: center;
+}
+
+#brand h1 {
+	margin: 0;
+}
+
+@media (min-width: 700px) {
+	.container {
+		max-width: 300px;
+		max-height: 550px;
+  }
+}
+
+/* DISPLAY */
+
+#display {
+	height: 30%;
+	background-color: #ccc;
+	text-align: right;
+	margin: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+#display p {
+	margin: 10px;
+}
+
+#entry {
+	font-size: 2em;
+}
+
+#equation {
+
+}
+
+/* BUTTONS */
+
+#buttons {
+	height: 70%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-gap: 10px 10px;
+	margin: 5px;
+}
+
+button {
+	background-color: #e7e7e7;
+}
+
+#equals {
+	grid-column: 2 / span 2;
+	background-color: red;
+}
+
+#plus {
+	grid-column-start: 4;
+	grid-column-end: 4;
+	grid-row-start: 4;
+	grid-row-end: 6;
+}
