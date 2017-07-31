@@ -223,7 +223,7 @@ console.log(buttons);
 // iterate through `buttons` and add a listener for each
 for (let i = 0; i < buttons.length; i += 1) {
   console.log(buttons.item(i), `value >= 0?: ${buttons.item(i).value >= 0}`);
-  buttons.item(i).addEventListener('touchend', buttonListener);
+  buttons.item(i).addEventListener('click', buttonListener);
 }
 
 // trigger buttons based on keyboard input
