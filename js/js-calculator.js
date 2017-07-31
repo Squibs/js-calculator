@@ -1,3 +1,9 @@
+window.onerror = function (error) {
+  alert(error);
+};
+
+document.getElementById('equation').innerHTML = 'yes';
+
 /* *******************
     EQUATION HANDLING
    ******************* */
@@ -15,15 +21,10 @@ const evaluateEquation = function () {
   // stores current equation split into an array
   const eArr = equation.split(' ');
 
-  console.log(eArr);
-  console.log(eArr.length);
-
   // if equation does not end in an empty string
   if (/^(?![\s\S])/gi.test(eArr[eArr.length - 1])) {
     eArr.splice(eArr.length - 2, 2);
   }
-
-  console.log(eArr);
 
   // multiplication and division in order left to right
   for (let i = 0; i < eArr.length; i += 1) {
@@ -209,7 +210,6 @@ const evaluateButtonPressed = function (buttonValue) {
 // adds listener for each button
 const buttonListener = function () {
   // update equation depending on the button pressed
-  console.log(this.value);
   document.getElementById('equation').innerHTML = evaluateButtonPressed(this.value);
 
   // update calculation by evaluating the current equation
@@ -223,7 +223,7 @@ console.log(buttons);
 // iterate through `buttons` and add a listener for each
 for (let i = 0; i < buttons.length; i += 1) {
   console.log(buttons.item(i), `value >= 0?: ${buttons.item(i).value >= 0}`);
-  buttons.item(i).addEventListener('click', buttonListener);
+  buttons.item(i).addEventListener('touchend', buttonListener);
 }
 
 // trigger buttons based on keyboard input
@@ -314,10 +314,12 @@ window.addEventListener('keyup', (event) => {
         break;
     }
   }
-  console.log(key);
 }, true);
 
 
-/* *****************************************************
-    TODO:
-   ***************************************************** */
+/* ***************************************************************************
+    TODO (potentially outside scope as of this current time):
+      - Limit length of equation otherwise it will go off screen (~16 digits)
+      - Use exponent notation for long results
+      - split numbers up with commas for easier reading
+   *************************************************************************** */

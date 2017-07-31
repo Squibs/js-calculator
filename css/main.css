@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
 html, body {
 	margin: 0;
 	padding: 0;
@@ -32,8 +34,8 @@ html, body {
 
 @media (min-width: 700px) {
 	.container {
-		max-width: 300px;
-		max-height: 550px;
+		max-width: 450px;
+		max-height: 750px;
   }
 }
 
@@ -47,6 +49,7 @@ html, body {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	font-family: 'Orbitron', sans-serif;
 }
 
 #display p {
@@ -73,6 +76,7 @@ html, body {
 
 button {
 	background-color: #e7e7e7;
+	cursor: pointer;
 }
 
 #equals {
