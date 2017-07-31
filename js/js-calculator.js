@@ -50,9 +50,16 @@ const evaluateEquation = function () {
    ***************** */
 // equals ('=')
 const buttonEquals = function () {
-  // the equation is evaluated after every button press, the calculation is just hidden
+  // the equation is evaluated after every button press, the calculation hidden by default
+  const calculationDisplay = document.getElementById('calculation').style;
+  const equationDisplay = document.getElementById('equation').style;
+
   // make calculation visible for illusion of doing something
-  document.getElementById('calculation').style.visibility = 'visible';
+  calculationDisplay.visibility = 'visible';
+  // adjust font sizes to make calculation stand out
+  calculationDisplay.fontSize = '2em';
+  equationDisplay.fontSize = '1em';
+
   newEquationFlag = true;
   previousValue = '=';
 };
@@ -69,10 +76,18 @@ const buttonMathFunction = function (buttonValue) {
 
 // clear 'C'
 const buttonClear = function () {
-  // set everything to default
+  const calculationDisplay = document.getElementById('calculation').style;
+  const equationDisplay = document.getElementById('equation').style;
+
+  // sets font sizes to default
+  calculationDisplay.visibility = 'hidden';
+  calculationDisplay.fontSize = '1em';
+  equationDisplay.fontSize = '2em';
+
+  // sets everything else to default
   previousValue = 0;
   equation = '0';
-  document.getElementById('calculation').style.visibility = 'hidden';
+  newEquationFlag = false;
   console.clear();
 };
 
@@ -149,10 +164,7 @@ const evaluateButtonPressed = function (buttonValue) {
   // if flag is true start new equation
   if (newEquationFlag === true) {
     // set everything to default
-    newEquationFlag = false;
-    equation = '0';
-    previousValue = 0;
-    document.getElementById('calculation').style.visibility = 'hidden';
+    buttonClear();
   }
 
   switch (true) {
@@ -197,6 +209,7 @@ const evaluateButtonPressed = function (buttonValue) {
 // adds listener for each button
 const buttonListener = function () {
   // update equation depending on the button pressed
+  console.log(this.value);
   document.getElementById('equation').innerHTML = evaluateButtonPressed(this.value);
 
   // update calculation by evaluating the current equation
@@ -213,8 +226,98 @@ for (let i = 0; i < buttons.length; i += 1) {
   buttons.item(i).addEventListener('click', buttonListener);
 }
 
+// trigger buttons based on keyboard input
+window.addEventListener('keyup', (event) => {
+  const key = event.which || event.keyCode;
+
+  // http://www.javascripter.net/faq/keycodes.htm useful site for keycodes
+
+  // if multiply '*' is pressed via shift + 8
+  if ((event.shiftKey && key === 56) || key === 106) {
+    buttons[7].click();
+  // if plus '+' is pressed via shift + '='
+  } else if ((event.shiftKey && key === 61) || (event.shiftKey && key === 187) || key === 107) {
+    buttons[17].click();
+  // otherwise - normal key reading - in order of buttons array
+  } else {
+    switch (key) {
+      case 55:  // 7
+      case 103: // 7 (numpad)
+        buttons[0].click();
+        break;
+      case 56:  // 8
+      case 104: // 8 (numpad)
+        buttons[1].click();
+        break;
+      case 57:  // 9
+      case 105: // 9 (numpad)
+        buttons[2].click();
+        break;
+      case 111: // divide (numpad)
+      case 191: // forward slash '/'
+      case 220: // back slash '\'
+        buttons[3].click();
+        break;
+      case 52:  // 4
+      case 100: // 4 (numpad)
+        buttons[4].click();
+        break;
+      case 53:  // 5
+      case 101: // 5 (numpad)
+        buttons[5].click();
+        break;
+      case 54:  // 6
+      case 102: // 6 (numpad)
+        buttons[6].click();
+        break;
+      case 49:  // 1
+      case 97:  // 1 (numpad)
+        buttons[8].click();
+        break;
+      case 50:  // 2
+      case 98:  // 2 (numpad)
+        buttons[9].click();
+        break;
+      case 51:  // 3
+      case 99:  // 3 (numpad)
+        buttons[10].click();
+        break;
+      case 109: // subtract (numpad)
+      case 173: // dash (on firefox) (mute on|off on chrome)
+      case 189: // dash
+        buttons[11].click();
+        break;
+      case 48:  // 0
+      case 96:  // 0 (numpad)
+        buttons[12].click();
+        break;
+      case 110: // decimal point (numpad)
+      case 190: // period
+        buttons[13].click();
+        break;
+      case 8: // backspace
+        buttons[14].click();
+        break;
+      case 27:  // escape
+      case 46:  // delete
+      case 67:  // c
+        buttons[15].click();
+        break;
+      // equals '='
+      case 13:  // enter
+      case 61:  // equal sign (firefox)
+      case 187: // equal sign
+        buttons[16].click();
+        break;
+      // default do nothing
+      default:
+        break;
+    }
+  }
+  console.log(key);
+}, true);
+
 
 /* *****************************************************
     TODO:
-      - add ability to use numpad / numbers on keyboard
    ***************************************************** */

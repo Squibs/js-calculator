@@ -13,6 +13,8 @@ html, body {
 	width: 100%;
 }
 
+
+/* CALCULATOR */
 #calculator {
 	background-color: grey;
 	height: 100%;
@@ -35,8 +37,8 @@ html, body {
   }
 }
 
-/* DISPLAY */
 
+/* DISPLAY */
 #display {
 	height: 30%;
 	background-color: #ccc;
@@ -51,7 +53,7 @@ html, body {
 	margin: 10px;
 }
 
-#entry {
+#equation {
 	font-size: 2em;
 }
 
@@ -59,8 +61,8 @@ html, body {
 	visibility: hidden;
 }
 
-/* BUTTONS */
 
+/* BUTTONS */
 #buttons {
 	height: 70%;
 	display: grid;
