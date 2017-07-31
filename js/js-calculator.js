@@ -2,6 +2,8 @@ window.onerror = function (error) {
   alert(error);
 };
 
+alert('hello?');
+
 document.getElementById('equation').innerHTML = 'yes';
 
 /* *******************
