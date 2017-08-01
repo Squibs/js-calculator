@@ -8,10 +8,11 @@ html, body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 }
 
 .container {
-	height: 100%;
+	height: 96%;
 	width: 100%;
 }
 
@@ -22,6 +23,8 @@ html, body {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22),
+		inset -1px -6px 12px 0.1px rgba(0,0,0,0.40);
 }
 
 #brand {
@@ -32,11 +35,23 @@ html, body {
 	margin: 0;
 }
 
+footer {
+	text-align: center;
+}
+
+footer p {
+	margin: 2px;
+}
+
 @media (min-width: 700px) {
 	.container {
 		max-width: 450px;
 		max-height: 750px;
-  }
+	}
+
+	#calculator {
+		border-radius: 8px;
+	}
 }
 
 
@@ -45,7 +60,7 @@ html, body {
 	height: 30%;
 	background-color: #ccc;
 	text-align: right;
-	margin: 5px;
+	margin: 10px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -56,27 +71,45 @@ html, body {
 	margin: 10px;
 }
 
-#equation {
+#calculatorEquation {
 	font-size: 2em;
 }
 
-#calculation {
+#calculatorCalculation {
 	visibility: hidden;
 }
 
 
 /* BUTTONS */
-#buttons {
-	height: 70%;
+#calculatorButtons {
+	height: 55%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 10px 10px;
-	margin: 5px;
+	margin: 10px;
+	margin-bottom: 35px;
 }
 
 button {
 	background-color: #e7e7e7;
 	cursor: pointer;
+	font-size: 1.5em;
+}
+
+.button {
+	outline: none;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 6px #999;
+}
+
+.hover .button:hover { background-color: #b6b6b6; }
+
+.button:active {
+	background-color: #b6b6b6;
+	box-shadow: 0 5px #666;
+	-webkit-transform: translateY(40em);
+	transform: translateY(4px);
 }
 
 #equals {
@@ -84,9 +117,18 @@ button {
 	background-color: red;
 }
 
+.hover #equals:hover { background-color: #bb0000; }
+
 #plus {
 	grid-column-start: 4;
 	grid-column-end: 4;
 	grid-row-start: 4;
 	grid-row-end: 6;
+}
+
+@media (min-width: 700px) {
+	#calculatorButtons {
+		height: 70%;
+		margin-bottom: 20px;
+  }
 }

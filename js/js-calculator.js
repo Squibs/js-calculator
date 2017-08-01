@@ -1,11 +1,3 @@
-window.onerror = function (error) {
-  alert(error);
-};
-
-alert('hello?');
-
-document.getElementById('equation').innerHTML = 'yes';
-
 /* *******************
     EQUATION HANDLING
    ******************* */
@@ -54,8 +46,8 @@ const evaluateEquation = function () {
 // equals ('=')
 const buttonEquals = function () {
   // the equation is evaluated after every button press, the calculation hidden by default
-  const calculationDisplay = document.getElementById('calculation').style;
-  const equationDisplay = document.getElementById('equation').style;
+  const calculationDisplay = document.getElementById('calculatorCalculation').style;
+  const equationDisplay = document.getElementById('calculatorEquation').style;
 
   // make calculation visible for illusion of doing something
   calculationDisplay.visibility = 'visible';
@@ -79,8 +71,8 @@ const buttonMathFunction = function (buttonValue) {
 
 // clear 'C'
 const buttonClear = function () {
-  const calculationDisplay = document.getElementById('calculation').style;
-  const equationDisplay = document.getElementById('equation').style;
+  const calculationDisplay = document.getElementById('calculatorCalculation').style;
+  const equationDisplay = document.getElementById('calculatorEquation').style;
 
   // sets font sizes to default
   calculationDisplay.visibility = 'hidden';
@@ -212,10 +204,10 @@ const evaluateButtonPressed = function (buttonValue) {
 // adds listener for each button
 const buttonListener = function () {
   // update equation depending on the button pressed
-  document.getElementById('equation').innerHTML = evaluateButtonPressed(this.value);
+  document.getElementById('calculatorEquation').innerHTML = evaluateButtonPressed(this.value);
 
   // update calculation by evaluating the current equation
-  document.getElementById('calculation').innerHTML = evaluateEquation();
+  document.getElementById('calculatorCalculation').innerHTML = evaluateEquation();
 };
 
 // store HTMLCollection of all buttons as `buttons`
@@ -319,9 +311,49 @@ window.addEventListener('keyup', (event) => {
 }, true);
 
 
-/* ***************************************************************************
+/* *********************
+    VARIOUS USAGE FIXES
+   ********************* */
+// fix for mobile hover stickiness (add .hover before any :hover in css)
+document.body.className = 'ontouchstart' in window ? '' : 'hover';
+
+// fix for iOS double tap zooms; prevents zoom in when pressing a button multiple times in a row
+(function () {
+  // stores timestamp of the last time screen was touched
+  let lastTouch = 0;
+
+  // resets lastTouch timestamp
+  function resetPreventZoom() {
+    lastTouch = 0;
+  }
+
+  // prevents the screen from zooming based on time, movement, or number of fingers
+  function preventZoom(event) {
+    const time = event.timeStamp;
+    const time2 = lastTouch || time;
+    const timeDifference = time - time2;
+    const fingers = event.touches.length;
+
+    lastTouch = time;
+
+    // if enough time has elapsed or multiple fingers touch the screen
+    if (!timeDifference || timeDifference >= 300 || fingers > 1) {
+      return;
+    }
+
+    resetPreventZoom();
+    event.preventDefault();
+    event.target.click();
+  }
+
+  document.addEventListener('touchstart', preventZoom, false);
+  document.addEventListener('touchmove', resetPreventZoom, false);
+}());
+
+
+/* ******************************************************************************
     TODO (potentially outside scope as of this current time):
-      - Limit length of equation otherwise it will go off screen (~16 digits)
+      - Limit length of equation otherwise it will go off screen (~12-16 digits)
       - Use exponent notation for long results
       - split numbers up with commas for easier reading
-   *************************************************************************** */
+   ****************************************************************************** */
