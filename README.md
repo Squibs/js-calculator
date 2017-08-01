@@ -2,7 +2,7 @@
 
 A JavaScript calculator I have created while going through the advanced front end development project challenges at https://freeCodeCamp.com
 
-## [JavaScript Calculator](https://github.com/Squibs/freeCodeCamp/tree/master/Front%20End%20Development%20Certification#javascript-calculator) (Go Back)
+## [Front End Development Certificaton Projects](https://github.com/Squibs/freeCodeCamp/tree/master/Front%20End%20Development%20Certification#javascript-calculator) (Go Back)
 
 <a href="https://squibs.github.io/js-calculator" tart="_blank"><img src="img/screenshot-js-calculator.png" height="600" alt="Screnshot of my JavaScript calculator app / website"/></a>
 
