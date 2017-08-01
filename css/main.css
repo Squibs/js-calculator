@@ -9,11 +9,18 @@ html, body {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+	background-color: #bbb;
 }
 
 .container {
 	height: 96%;
 	width: 100%;
+}
+
+footer a {
+	color: #bb0000;
+	text-decoration: none;
+	font-family: 'Orbitron', sans-serif;
 }
 
 
@@ -29,6 +36,8 @@ html, body {
 
 #brand {
 	text-align: center;
+	font-family: 'Orbitron', sans-serif;
+	margin-top: 5px;
 }
 
 #brand h1 {
@@ -61,10 +70,13 @@ footer p {
 	background-color: #ccc;
 	text-align: right;
 	margin: 10px;
+	margin-top: 5px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	font-family: 'Orbitron', sans-serif;
+	border-radius: 10px;
+	border: 5px solid #999;
 }
 
 #display p {

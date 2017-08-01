@@ -13,7 +13,7 @@ let newEquationFlag = false;
 // calcualates current equation
 const evaluateEquation = function () {
   // stores current equation split into an array
-  const eArr = equation.split(' ');
+  let eArr = equation.split(' ');
 
   // if equation does not end in an empty string
   if (/^(?![\s\S])/gi.test(eArr[eArr.length - 1])) {
@@ -36,13 +36,24 @@ const evaluateEquation = function () {
     }
   }
 
+  // limit length of calculation answer to 12 digits
+  if (eArr.join(' ').length > 12) {
+    for (let i = 10; i >= 1; i -= 1) {
+      if (eArr[0].toFixed(i).length <= 12) {
+        return eArr[0].toFixed(i);
+      }
+    }
+    // display 'DIGIT LIMIT MET' if answer is above 12 digits
+    eArr[0] = 'DIGIT LIMIT MET';
+  }
+
   return eArr.join(' ');
 };
 
 
-/* *****************
-    BUTTON HANDLERS
-   ***************** */
+/* **************
+    BUTTON LOGIC
+   ************** */
 // equals ('=')
 const buttonEquals = function () {
   // the equation is evaluated after every button press, the calculation hidden by default
@@ -352,8 +363,10 @@ document.body.className = 'ontouchstart' in window ? '' : 'hover';
 
 
 /* ******************************************************************************
-    TODO (potentially outside scope as of this current time):
+    TODO (potentially outside scope for this project as of this current time):
       - Limit length of equation otherwise it will go off screen (~12-16 digits)
+        + I've already limited length of the calculation / answer
       - Use exponent notation for long results
       - split numbers up with commas for easier reading
+      - round calculation if number contains a decimal to the same decimal place
    ****************************************************************************** */
