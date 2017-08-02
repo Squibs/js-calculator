@@ -13,7 +13,7 @@ let newEquationFlag = false;
 // calcualates current equation
 const evaluateEquation = function () {
   // stores current equation split into an array
-  let eArr = equation.split(' ');
+  const eArr = equation.split(' ');
 
   // if equation does not end in an empty string
   if (/^(?![\s\S])/gi.test(eArr[eArr.length - 1])) {
@@ -94,7 +94,7 @@ const buttonClear = function () {
   previousValue = 0;
   equation = '0';
   newEquationFlag = false;
-  console.clear();
+  // console.clear();
 };
 
 // backspace / delete '←'
@@ -165,7 +165,7 @@ const buttonNumber = function (buttonValue) {
    ***************** */
 // runs the correct function depending on the button that is pressed
 const evaluateButtonPressed = function (buttonValue) {
-  console.log(`************************************\nBEFORE BUTTON:\nButton Pressed: ${buttonValue}\nPrevious Value: ${previousValue}\nEquation: ${equation}\nEquation Length: ${equation.length}`);
+  // console.log(`************************************\nBEFORE BUTTON:\nButton Pressed: ${buttonValue}\nPrevious Value: ${previousValue}\nEquation: ${equation}\nEquation Length: ${equation.length}`);
 
   // if flag is true start new equation
   if (newEquationFlag === true) {
@@ -204,7 +204,7 @@ const evaluateButtonPressed = function (buttonValue) {
       return 'ERR';
   }
 
-  console.log(`AFTER BUTTON:\nPrevious Value: ${previousValue}\nEquation: ${equation}\nEquation Length: ${equation.length}\n************************************`);
+  // console.log(`AFTER BUTTON:\nPrevious Value: ${previousValue}\nEquation: ${equation}\nEquation Length: ${equation.length}\n************************************`);
   return equation;
 };
 
@@ -223,11 +223,9 @@ const buttonListener = function () {
 
 // store HTMLCollection of all buttons as `buttons`
 const buttons = document.getElementsByTagName('button');
-console.log(buttons);
 
 // iterate through `buttons` and add a listener for each
 for (let i = 0; i < buttons.length; i += 1) {
-  console.log(buttons.item(i), `value >= 0?: ${buttons.item(i).value >= 0}`);
   buttons.item(i).addEventListener('click', buttonListener);
 }
 
