@@ -120,7 +120,7 @@ button {
 .button:active {
 	background-color: #b6b6b6;
 	box-shadow: 0 5px #666;
-	-webkit-transform: translateY(40em);
+	-webkit-transform: translateY(4px);
 	transform: translateY(4px);
 }
 
