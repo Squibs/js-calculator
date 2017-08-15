@@ -165,8 +165,6 @@ const buttonNumber = function (buttonValue) {
    ***************** */
 // runs the correct function depending on the button that is pressed
 const evaluateButtonPressed = function (buttonValue) {
-  // console.log(`************************************\nBEFORE BUTTON:\nButton Pressed: ${buttonValue}\nPrevious Value: ${previousValue}\nEquation: ${equation}\nEquation Length: ${equation.length}`);
-
   // if flag is true start new equation
   if (newEquationFlag === true) {
     // set everything to default
@@ -204,7 +202,6 @@ const evaluateButtonPressed = function (buttonValue) {
       return 'ERR';
   }
 
-  // console.log(`AFTER BUTTON:\nPrevious Value: ${previousValue}\nEquation: ${equation}\nEquation Length: ${equation.length}\n************************************`);
   return equation;
 };
 
@@ -244,15 +241,15 @@ window.addEventListener('keyup', (event) => {
   // otherwise - normal key reading - in order of buttons array
   } else {
     switch (key) {
-      case 55:  // 7
+      case 55: // 7
       case 103: // 7 (numpad)
         buttons[0].click();
         break;
-      case 56:  // 8
+      case 56: // 8
       case 104: // 8 (numpad)
         buttons[1].click();
         break;
-      case 57:  // 9
+      case 57: // 9
       case 105: // 9 (numpad)
         buttons[2].click();
         break;
@@ -261,28 +258,28 @@ window.addEventListener('keyup', (event) => {
       case 220: // back slash '\'
         buttons[3].click();
         break;
-      case 52:  // 4
+      case 52: // 4
       case 100: // 4 (numpad)
         buttons[4].click();
         break;
-      case 53:  // 5
+      case 53: // 5
       case 101: // 5 (numpad)
         buttons[5].click();
         break;
-      case 54:  // 6
+      case 54: // 6
       case 102: // 6 (numpad)
         buttons[6].click();
         break;
-      case 49:  // 1
-      case 97:  // 1 (numpad)
+      case 49: // 1
+      case 97: // 1 (numpad)
         buttons[8].click();
         break;
-      case 50:  // 2
-      case 98:  // 2 (numpad)
+      case 50: // 2
+      case 98: // 2 (numpad)
         buttons[9].click();
         break;
-      case 51:  // 3
-      case 99:  // 3 (numpad)
+      case 51: // 3
+      case 99: // 3 (numpad)
         buttons[10].click();
         break;
       case 109: // subtract (numpad)
@@ -290,8 +287,8 @@ window.addEventListener('keyup', (event) => {
       case 189: // dash
         buttons[11].click();
         break;
-      case 48:  // 0
-      case 96:  // 0 (numpad)
+      case 48: // 0
+      case 96: // 0 (numpad)
         buttons[12].click();
         break;
       case 110: // decimal point (numpad)
@@ -301,14 +298,14 @@ window.addEventListener('keyup', (event) => {
       case 8: // backspace
         buttons[14].click();
         break;
-      case 27:  // escape
-      case 46:  // delete
-      case 67:  // c
+      case 27: // escape
+      case 46: // delete
+      case 67: // c
         buttons[15].click();
         break;
       // equals '='
-      case 13:  // enter
-      case 61:  // equal sign (firefox)
+      case 13: // enter
+      case 61: // equal sign (firefox)
       case 187: // equal sign
         buttons[16].click();
         break;
