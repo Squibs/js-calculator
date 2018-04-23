@@ -7,8 +7,16 @@ let equation = '0';
 // stores previously entered value
 let previousValue = 0;
 
-// handles whether or not to hide the calculation (for fake equals button)
-let newEquationFlag = false;
+let evaluatedFlag = false;
+
+const resetScreen = function () {
+  // an equation has been evaluated already, continue the same equation
+  const calculationDisplay = document.getElementById('calculatorCalculation').style;
+  const equationDisplay = document.getElementById('calculatorEquation').style;
+
+  calculationDisplay.visibility = 'hidden';
+  equationDisplay.fontSize = '2em';
+};
 
 // calcualates current equation
 const evaluateEquation = function () {
@@ -66,15 +74,20 @@ const buttonEquals = function () {
   calculationDisplay.fontSize = '2em';
   equationDisplay.fontSize = '1em';
 
-  newEquationFlag = true;
+  evaluatedFlag = true;
   previousValue = '=';
 };
 
-// mathmatical operation ('/', '*', '-', '+')
+// mathematical operation ('/', '*', '-', '+')
 const buttonMathFunction = function (buttonValue) {
   // if previous value is a mathmatical operation
   if (/[/*\-+]/.test(previousValue)) {
     equation = equation.slice(0, -3);
+  } else if (evaluatedFlag) {
+    // set the equation equal to the just evaluated results
+    equation = evaluateEquation();
+    evaluatedFlag = false;
+    resetScreen();
   }
   previousValue = buttonValue;
   equation += ` ${buttonValue} `;
@@ -91,14 +104,19 @@ const buttonClear = function () {
   equationDisplay.fontSize = '2em';
 
   // sets everything else to default
+  evaluatedFlag = false;
   previousValue = 0;
   equation = '0';
-  newEquationFlag = false;
-  // console.clear();
 };
 
 // backspace / delete '←'
 const buttonBackspace = function () {
+  // reset back to original equation entry screen state
+  if (evaluatedFlag) {
+    resetScreen();
+    evaluatedFlag = false;
+  }
+
   // resets equation to default if equation length is 1 instead of removing last value
   if (equation.length === 1) {
     previousValue = 0;
@@ -129,6 +147,12 @@ const buttonBackspace = function () {
 
 // decimal '.'
 const buttonDecimal = function () {
+  // reset back to original equation entry screen state
+  if (evaluatedFlag) {
+    resetScreen();
+    evaluatedFlag = false;
+  }
+
   // ^(\d+\.\d+)$ - matches any number with a decimal
   // ^\d+(\.\d+)?$ - matches any number with optional decimal
   // ^\d+$ - matches any number without a decimal
@@ -146,6 +170,13 @@ const buttonDecimal = function () {
 
 // numbers (0-9)
 const buttonNumber = function (buttonValue) {
+  // assume start of a new equation
+  if (evaluatedFlag) {
+    buttonClear();
+    resetScreen();
+    evaluatedFlag = false;
+  }
+
   // splits and stores equation in an array
   const eArr = equation.split(' ');
 
@@ -165,12 +196,6 @@ const buttonNumber = function (buttonValue) {
    ***************** */
 // runs the correct function depending on the button that is pressed
 const evaluateButtonPressed = function (buttonValue) {
-  // if flag is true start new equation
-  if (newEquationFlag === true) {
-    // set everything to default
-    buttonClear();
-  }
-
   switch (true) {
     // button is a number (not a mathmatical operation)
     case buttonValue >= 0:
