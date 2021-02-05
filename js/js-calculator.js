@@ -11,26 +11,53 @@ let evaluatedFlag = false;
 
 const resetScreen = function () {
   // an equation has been evaluated already, continue the same equation
-  const calculationDisplay = document.getElementById('calculatorCalculation').style;
+  const calculationDisplay = document.getElementById('display').style;
   const equationDisplay = document.getElementById('calculatorEquation').style;
 
-  calculationDisplay.visibility = 'hidden';
+  // making font size 0 instead of setting visibility 0 for fCC tests
+  // calculationDisplay.visibility = 'hidden';
+  calculationDisplay.fontSize = 0;
   equationDisplay.fontSize = '2em';
 };
 
-// calcualates current equation
+// calculates current equation
 const evaluateEquation = function () {
   // stores current equation split into an array
-  const eArr = equation.split(' ');
+  let eArr = equation.split(' ');
 
-  // if equation does not end in an empty string
-  if (/^(?![\s\S])/gi.test(eArr[eArr.length - 1])) {
-    eArr.splice(eArr.length - 2, 2);
+  // translate eArr back to a string with less spaces
+  // only spaces that should be in string are between subtraction signs
+  let checkForNegative = '';
+  for (let i = 0; i < eArr.length; i += 1) {
+    if (eArr[i].match(/[\d/*+-]/)) {
+      checkForNegative = checkForNegative.concat(eArr[i]);
+    } else {
+      checkForNegative = checkForNegative.concat(' ');
+    }
+  }
+
+  // if equation has a negative number; put negative sign in same array element as number
+  if (equation.match(/[/*+-]\s\s-\s\d/)) {
+    eArr = [];
+
+    for (let i = 0; i < checkForNegative.length; i += 1) {
+      if (checkForNegative[i] === '-' && checkForNegative[i + 1].match(/\d/) && checkForNegative[i - 1].match(/\s/)) {
+        eArr = eArr.concat(`${checkForNegative[i]}${checkForNegative[i + 1]}`);
+        i += 1;
+      } else if (checkForNegative[i] !== ' ') {
+        eArr = eArr.concat(checkForNegative[i]);
+      }
+    }
+  }
+
+  // remove empty array elements or symbols that are at end of the array
+  while (eArr[eArr.length - 1].match(/([\s/*+-]$)|(^$)/)) {
+    eArr.splice(eArr.length - 1, 1);
   }
 
   // multiplication and division in order left to right
   for (let i = 0; i < eArr.length; i += 1) {
-    if (/[/*]/.test(eArr[i])) {
+    if (/[/*]$/.test(eArr[i])) {
       eArr.splice(i - 1, 3, eArr[i] === '*' ? parseFloat(eArr[i - 1]) * parseFloat(eArr[i + 1]) : parseFloat(eArr[i - 1]) / parseFloat(eArr[i + 1]));
       i = 0;
     }
@@ -38,7 +65,7 @@ const evaluateEquation = function () {
 
   // addition and subtraction in order left to right
   for (let i = 0; i < eArr.length; i += 1) {
-    if (/[+-]/.test(eArr[i])) {
+    if (/[+-]$/.test(eArr[i])) {
       eArr.splice(i - 1, 3, eArr[i] === '+' ? parseFloat(eArr[i - 1]) + parseFloat(eArr[i + 1]) : parseFloat(eArr[i - 1]) - parseFloat(eArr[i + 1]));
       i = 0;
     }
@@ -47,8 +74,8 @@ const evaluateEquation = function () {
   // limit length of calculation answer to 12 digits
   if (eArr.join(' ').length > 12) {
     for (let i = 10; i >= 1; i -= 1) {
-      if (eArr[0].toFixed(i).length <= 12) {
-        return eArr[0].toFixed(i);
+      if (Number(eArr[0]).toFixed(i).length <= 12) {
+        return Number(eArr[0]).toFixed(i);
       }
     }
     // display 'DIGIT LIMIT MET' if answer is above 12 digits
@@ -65,7 +92,7 @@ const evaluateEquation = function () {
 // equals ('=')
 const buttonEquals = function () {
   // the equation is evaluated after every button press, the calculation hidden by default
-  const calculationDisplay = document.getElementById('calculatorCalculation').style;
+  const calculationDisplay = document.getElementById('display').style;
   const equationDisplay = document.getElementById('calculatorEquation').style;
 
   // make calculation visible for illusion of doing something
@@ -80,27 +107,41 @@ const buttonEquals = function () {
 
 // mathematical operation ('/', '*', '-', '+')
 const buttonMathFunction = function (buttonValue) {
-  // if previous value is a mathmatical operation
-  if (/[/*\-+]/.test(previousValue)) {
-    equation = equation.slice(0, -3);
+  equation += ` ${buttonValue} `;
+
+  // long winded set of regex that can probably be shortened and made more clear
+  // essentially looks for repeating multiplication, division, or addition signs
+  // allows for two subtraction signs to be in a row for negative numbers
+  if (equation.match(/([+/*]\s\s[+/*])|(-\s\s-\s\s-)|(\d\s-\s\s[/*+])/) && !equation.match(/(\d\s[+/*]\s\s-)/)) {
+    equation = equation.slice(0, -6);
+    equation += ` ${buttonValue} `;
+  } else if (equation.match(/([/*+]\s\s-\s\s[/*+])|(-\s\s[/*+]\s\s-)|(-\s\s-\s\s[/*+])/)) {
+    equation = equation.slice(0, -9);
+    equation += ` ${buttonValue} `;
+  } else if (equation.match(/([/*+-]\s\s-\s\s-)/) && previousValue === '-') {
+    equation = equation.slice(0, -6);
+    equation += ` ${buttonValue} `;
   } else if (evaluatedFlag) {
     // set the equation equal to the just evaluated results
     equation = evaluateEquation();
     evaluatedFlag = false;
     resetScreen();
+    equation += ` ${buttonValue} `;
   }
+
+  // set previousValue to entered mathematical operation
   previousValue = buttonValue;
-  equation += ` ${buttonValue} `;
 };
 
 // clear 'C'
 const buttonClear = function () {
-  const calculationDisplay = document.getElementById('calculatorCalculation').style;
+  const calculationDisplay = document.getElementById('display').style;
   const equationDisplay = document.getElementById('calculatorEquation').style;
 
   // sets font sizes to default
-  calculationDisplay.visibility = 'hidden';
-  calculationDisplay.fontSize = '1em';
+  // making font size 0 instead of setting visibility 0 for fCC tests
+  // calculationDisplay.visibility = 'hidden';
+  calculationDisplay.fontSize = 0;
   equationDisplay.fontSize = '2em';
 
   // sets everything else to default
@@ -123,7 +164,7 @@ const buttonBackspace = function () {
     equation = '0';
   // remove the last entered value
   } else {
-    // if last value is a space (follows a mathmatic function) remove last three values
+    // if last value is a space (follows a mathematic function) remove last three values
     if (equation[equation.length - 1] === ' ') {
       equation = equation.slice(0, -3);
     // remove last value
@@ -134,7 +175,7 @@ const buttonBackspace = function () {
     // stores last index of equation
     const length = equation.length - 1;
 
-    // last value of equation is '.' (decimal) or ' ' (space / mathmatic funciton)
+    // last value of equation is '.' (decimal) or ' ' (space / mathematic function)
     if (equation[length] === '.' || equation[length] === ' ') {
       // set previousValue to one before last index of equation
       previousValue = equation[length - 1];
@@ -157,7 +198,7 @@ const buttonDecimal = function () {
   // ^\d+(\.\d+)?$ - matches any number with optional decimal
   // ^\d+$ - matches any number without a decimal
 
-  // if previous value is a mathmatical operation & decimal is entered first in new segment / number
+  // if previous value is a mathematical operation & decimal is entered first in new segment/number
   if (/[/*\-+]/.test(previousValue)) {
     equation += '0.';
   // tests current segment / number for existing decimal
@@ -197,11 +238,11 @@ const buttonNumber = function (buttonValue) {
 // runs the correct function depending on the button that is pressed
 const evaluateButtonPressed = function (buttonValue) {
   switch (true) {
-    // button is a number (not a mathmatical operation)
+    // button is a number (not a mathematical operation)
     case buttonValue >= 0:
       buttonNumber(buttonValue);
       break;
-    // button is a mathmatical operation ('/', '*', '-', '+')
+    // button is a mathematical operation ('/', '*', '-', '+')
     case /[/*\-+]/.test(buttonValue):
       buttonMathFunction(buttonValue);
       break;
@@ -240,7 +281,7 @@ const buttonListener = function () {
   document.getElementById('calculatorEquation').innerHTML = evaluateButtonPressed(this.value);
 
   // update calculation by evaluating the current equation
-  document.getElementById('calculatorCalculation').innerHTML = evaluateEquation();
+  document.getElementById('display').innerHTML = evaluateEquation();
 };
 
 // store HTMLCollection of all buttons as `buttons`

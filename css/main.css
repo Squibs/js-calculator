@@ -65,7 +65,7 @@ footer p {
 
 
 /* DISPLAY */
-#display {
+#display-screen {
 	height: 30%;
 	background-color: #ccc;
 	text-align: right;
@@ -79,7 +79,7 @@ footer p {
 	border: 5px solid #999;
 }
 
-#display p {
+#display-screen p {
 	margin: 10px;
 }
 
@@ -87,8 +87,9 @@ footer p {
 	font-size: 2em;
 }
 
-#calculatorCalculation {
-	visibility: hidden;
+#display {
+	/* visibility: hidden; */
+	font-size: 0; /* for fCC tests */
 }
 
 
@@ -131,7 +132,7 @@ button {
 
 .hover #equals:hover { background-color: #bb0000; }
 
-#plus {
+#add {
 	grid-column-start: 4;
 	grid-column-end: 4;
 	grid-row-start: 4;
